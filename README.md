@@ -1,5 +1,4 @@
-yii2-nestable
-=============
+# yii2-nestable
 
 Yii 2.0 implementation of nested set behavior using jquery.nestable plugin.
 - jquery.nestable plugin: http://dbushell.github.io/Nestable/
@@ -28,19 +27,19 @@ to the ```require``` section of your `composer.json` file.
 Make sure you've attached the NestedSetsBehavior (creocoder/yii2-nested-sets) correctly to your model.
 Then add the node move handler to you controller by attaching the supplied action;
 
-```
+```php
 use slatiusa\nestable\Nestable;
 
-class yourClass extends Controller
-{
-    public function actions() {
-        return [
-            'nodeMove' => [
-                'class' => 'slatiusa\nestable\NodeMoveAction',
-                'modelName' => TreeModel::className(),
-            ],
-        ];
-    }
+class yourClass extends Controller {
+	public function actions() {
+		return [
+			'nodeMove' => [
+				'class' => 'slatiusa\nestable\NodeMoveAction',
+				'modelName' => TreeModel::className(),
+			],
+		];
+	}
+}
 
 ```
 

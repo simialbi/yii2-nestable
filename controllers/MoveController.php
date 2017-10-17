@@ -44,10 +44,11 @@ class MoveController extends Controller {
 	 *
 	 * @param mixed $id primary key value of node
 	 * @param mixed $context primary key value of context node
+	 * @param string $modelClass class name
 	 *
 	 * @throws InvalidConfigException
 	 */
-	public function actionRoot($id, $context = null) {
+	public function actionRoot($id, $context = null, $modelClass = '') {
 		/* @var $modelClass \yii\db\ActiveRecord */
 		$model   = $modelClass::findOne($id);
 		$context = $modelClass::findOne($context);
@@ -73,10 +74,11 @@ class MoveController extends Controller {
 	 *
 	 * @param mixed $id primary key value of node
 	 * @param mixed $context primary key value of context node
+	 * @param string $modelClass class name
 	 *
 	 * @throws InvalidConfigException
 	 */
-	public function actionAfter($id, $context) {
+	public function actionAfter($id, $context, $modelClass = '') {
 		/* @var $modelClass \yii\db\ActiveRecord */
 		$model   = $modelClass::findOne($id);
 		$context = $modelClass::findOne($context);
@@ -99,10 +101,11 @@ class MoveController extends Controller {
 	 *
 	 * @param mixed $id primary key value of node
 	 * @param mixed $context primary key value of context node
+	 * @param string $modelClass class name
 	 *
 	 * @throws InvalidConfigException
 	 */
-	public function actionBefore($id, $context) {
+	public function actionBefore($id, $context, $modelClass = '') {
 		/* @var $modelClass \yii\db\ActiveRecord */
 		$model   = $modelClass::findOne($id);
 		$context = $modelClass::findOne($context);
@@ -125,10 +128,11 @@ class MoveController extends Controller {
 	 *
 	 * @param mixed $id primary key value of node
 	 * @param mixed $context primary key value of context node
+	 * @param string $modelClass class name
 	 *
 	 * @throws InvalidConfigException
 	 */
-	public function actionAppend($id, $context) {
+	public function actionAppend($id, $context, $modelClass = '') {
 		/* @var $modelClass \yii\db\ActiveRecord */
 		$model   = $modelClass::findOne($id);
 		$context = $modelClass::findOne($context);

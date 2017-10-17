@@ -218,6 +218,8 @@ class Nestable extends Widget {
 			return [];
 		}
 
+		$this->clientOptions['modelClass'] = $activeQuery->modelClass;
+
 		$items = [];
 		foreach ($activeQuery->all() as $model) {
 			/* @var $model \simialbi\yii2\nestable\models\ActiveRecord */

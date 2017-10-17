@@ -49,7 +49,8 @@
 		group: 0,
 		maxDepth: 5,
 		threshold: 20,
-		url: ''
+		url: '',
+		modelClass: null
 	};
 
 	function Plugin(element, options) {
@@ -60,7 +61,6 @@
 	}
 
 	Plugin.prototype = {
-
 		init: function () {
 			var list = this;
 
@@ -304,7 +304,8 @@
 				context: document.body,
 				data: {
 					id: el.data('id'),
-					context: context
+					context: context,
+					modelClass: this.options.modelClass
 				}
 			}).fail(function (jqXHR) {
 				window.alert(jqXHR.responseText);
