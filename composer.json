@@ -1,0 +1,31 @@
+{
+    "name": "simialbi/yii2-nestable",
+    "description": "Yii 2.0 implementation of nested set behavior using jquery.nestable plugin (based on slatiusa/yii2-nestable).",
+    "keywords": ["yii2", "extension", "widget", "nestable", "sortable", "nested set", "behavior", "jquery"],
+    "homepage": "https://github.com/simialbi/yii2-nestable",
+    "type": "yii2-extension",
+    "license": "MIT",
+	"support": {
+		"issues": "https://github.com/simialbi/yii2-nestable/issues",
+		"source": "https://github.com/simialbi/yii2-nestable"
+	},
+    "authors": [
+        {
+            "name": "Arno Slatius",
+            "email": "a.slatius@gmail.com"
+        },
+		{
+			"name": "Simon Karlen",
+			"email": "simi.albi@gmail.com"
+		}
+    ],
+    "require": {
+		"yiisoft/yii2": "~2.0",
+        "creocoder/yii2-nested-sets": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "simialbi\\yii2\\nestable": ""
+        }
+    }
+}

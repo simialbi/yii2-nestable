@@ -1,0 +1,4 @@
+#: controllers/MoveController.php
+msgctxt "simialbi/nestable"
+msgid "Model {model} must extend {className}"
+msgstr "Das Model {model} muss die Klasse {className} erweitern"
