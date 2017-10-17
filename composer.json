@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "simialbi\\yii2\\nestable": ""
+            "simialbi\\yii2\\nestable\\": ""
         }
     }
 }
