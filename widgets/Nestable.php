@@ -226,13 +226,22 @@ class Nestable extends Widget {
 		$items = [];
 		foreach ($activeQuery->all() as $model) {
 			/* @var $model \simialbi\yii2\nestable\models\ActiveRecord */
-			$name    = ArrayHelper::getValue($this->modelOptions, 'name', 'name');
-			$content = '';
+			$name = ArrayHelper::getValue($this->modelOptions, 'name', 'name');
 			if (is_array($name)) {
 				if (is_callable($name[0])) {
 					$func = array_shift($name);
-					array_push($name, $model);
+					array_push($name, ['model' => $model]);
 					$content = call_user_func_array($func, $name);
+				} else {
+					$value = [];
+					foreach ($name as $key) {
+						if ($model->hasAttribute($key)) {
+							$value[] = $model->$key;
+						} else {
+							$value[] = $key;
+						}
+					}
+					$content = implode(' ', $value);
 				}
 			} else {
 				$content = $model->$name;
