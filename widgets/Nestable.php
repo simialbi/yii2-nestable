@@ -113,6 +113,9 @@ class Nestable extends Widget {
 	 * Initializes the widget
 	 */
 	public function init() {
+		if (!isset($this->options['id'])) {
+			$this->options['id'] = $this->getId();
+		}
 		if (null != $this->url) {
 			$this->clientOptions['url'] = $this->url;
 		} else {
