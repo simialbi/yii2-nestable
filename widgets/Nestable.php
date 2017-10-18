@@ -142,7 +142,9 @@ class Nestable extends Widget {
 	 */
 	public function run() {
 		if (count($this->items) > 0) {
-			echo Html::beginTag('ol', ['class' => 'dd-list']);
+			$listOptions = $this->listOptions;
+			Html::addCssClass($listOptions, 'dd-list');
+			echo Html::beginTag('ol', $listOptions);
 			echo $this->renderItems();
 			echo Html::endTag('ol');
 		}
@@ -161,21 +163,25 @@ class Nestable extends Widget {
 	protected function renderItems($_items = null) {
 		$_items = is_null($_items) ? $this->items : $_items;
 		$items  = '';
-		$dataid = 0;
+		$dataId = 0;
 		foreach ($_items as $item) {
-			$options = ArrayHelper::getValue($item, 'options', ['class' => 'dd-item dd3-item']);
+			$options = ArrayHelper::getValue($item, 'options', []);
 			$options = ArrayHelper::merge($this->itemOptions, $options);
-			$dataId  = ArrayHelper::getValue($item, 'id', $dataid++);
+			Html::addCssClass($options, ['dd-item', 'dd3-item']);
+			$dataId  = ArrayHelper::getValue($item, 'id', ++$dataId);
 			$options = ArrayHelper::merge($options, ['data-id' => $dataId]);
 
-			$contentOptions = ArrayHelper::getValue($item, 'contentOptions', ['class' => 'dd3-content']);
-			$content        = $this->handleLabel;
-			$content        .= Html::tag('div', ArrayHelper::getValue($item, 'content', ''), $contentOptions);
+			$contentOptions = ArrayHelper::getValue($item, 'contentOptions', []);
+			Html::addCssClass($contentOptions, 'dd3-content');
+//			$content = $this->handleLabel;
+			$content = Html::tag('div', ArrayHelper::getValue($item, 'content', ''), $contentOptions);
 
 			$children = ArrayHelper::getValue($item, 'children', []);
 			if (!empty($children)) {
 				// recursive rendering children items
-				$content .= Html::beginTag('ol', ['class' => 'dd-list']);
+				$listOptions = $this->listOptions;
+				Html::addCssClass($listOptions, 'dd-list');
+				$content .= Html::beginTag('ol', $listOptions);
 				$content .= $this->renderItems($children);
 				$content .= Html::endTag('ol');
 			}
