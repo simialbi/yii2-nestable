@@ -45,6 +45,12 @@ class Nestable extends Widget {
 	public $handleLabel = '<div class="dd-handle dd3-handle">&nbsp;</div>';
 
 	/**
+	 * @var array the HTML attributes for the title tag.
+	 * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+	 */
+	public $options = [];
+
+	/**
 	 * @var array the HTML attributes to be applied to list.
 	 * This will be overridden by the [[options]] property within [[$items]].
 	 */
@@ -55,6 +61,12 @@ class Nestable extends Widget {
 	 * This will be overridden by the [[options]] property within [[$items]].
 	 */
 	public $itemOptions = [];
+
+	/**
+	 * @var array the HTML attributes to be applied to all items.
+	 * This will be overridden by the [[options]] property within [[$items]].
+	 */
+	public $contentOptions = [];
 
 	/**
 	 * @var array the sortable items configuration for rendering elements within the sortable
@@ -96,12 +108,6 @@ class Nestable extends Widget {
 	 *         string for each item.
 	 */
 	public $modelOptions = [];
-
-	/**
-	 * @var array the HTML attributes for the title tag.
-	 * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-	 */
-	public $options = [];
 
 	/**
 	 * @var array client options
@@ -172,6 +178,7 @@ class Nestable extends Widget {
 			$options = ArrayHelper::merge($options, ['data-id' => $dataId]);
 
 			$contentOptions = ArrayHelper::getValue($item, 'contentOptions', []);
+			$contentOptions = ArrayHelper::merge($this->itemOptions, $contentOptions);
 			Html::addCssClass($contentOptions, 'dd3-content');
 //			$content = $this->handleLabel;
 			$content = Html::tag('div', ArrayHelper::getValue($item, 'content', ''), $contentOptions);
