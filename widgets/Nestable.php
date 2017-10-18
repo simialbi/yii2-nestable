@@ -178,7 +178,7 @@ class Nestable extends Widget {
 			$options = ArrayHelper::merge($options, ['data-id' => $dataId]);
 
 			$contentOptions = ArrayHelper::getValue($item, 'contentOptions', []);
-			$contentOptions = ArrayHelper::merge($this->itemOptions, $contentOptions);
+			$contentOptions = ArrayHelper::merge($this->contentOptions, $contentOptions);
 			Html::addCssClass($contentOptions, 'dd3-content');
 //			$content = $this->handleLabel;
 			$content = Html::tag('div', ArrayHelper::getValue($item, 'content', ''), $contentOptions);
