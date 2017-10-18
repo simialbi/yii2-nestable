@@ -281,7 +281,7 @@
 			var url = this.options.url;
 			var prev = el.prev(this.options.itemNodeName);
 			var next = el.next(this.options.itemNodeName);
-			var parent = el.closest(this.options.itemNodeName);
+			var parent = el.parents(this.options.itemNodeName);
 			var context;
 
 			if (!parent.length) {
