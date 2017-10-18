@@ -234,8 +234,8 @@
 			var mouse = this.mouse,
 				target = $(e.target),
 				dragItem = target.closest(this.options.itemNodeName),
-				handleOffset = $(this.options.handleClass, dragItem).position();
-				// node = this.node;
+				handleOffset = $('.' + this.options.handleClass, dragItem).position() || {left: 0, top: 0};
+			// node = this.node;
 
 			this.placeEl.css('height', dragItem.height());
 
@@ -323,7 +323,7 @@
 			var list, parent, prev, next, depth,
 				opt = this.options,
 				mouse = this.mouse,
-				handleOffset = $(this.options.handleClass, this.dragEl).first().position();
+				handleOffset = $('.' + this.options.handleClass, this.dragEl).first().position() || {left: 0, top: 0};
 
 			this.dragEl.css({
 				'left': e.pageX - mouse.offsetX - handleOffset.left,
