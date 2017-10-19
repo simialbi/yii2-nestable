@@ -239,7 +239,9 @@ class Nestable extends Widget {
 		$items = [];
 		foreach ($activeQuery->all() as $model) {
 			/* @var $model \simialbi\yii2\nestable\models\ActiveRecord */
-			$name = ArrayHelper::getValue($this->modelOptions, 'name', 'name');
+			$name        = ArrayHelper::getValue($this->modelOptions, 'name', 'name');
+			$active      = ArrayHelper::getValue($this->modelOptions, 'active', false);
+			$activeClass = ArrayHelper::getValue($this->modelOptions, 'activeClass', 'active');
 			if (is_array($name)) {
 				if (is_callable($name[0])) {
 					$func = array_shift($name);
@@ -259,10 +261,18 @@ class Nestable extends Widget {
 			} else {
 				$content = $model->$name;
 			}
+
+			if (is_callable($active)) {
+				$active = call_user_func_array($active, ['model' => $model]);
+			}
+
 			$items[] = [
 				'id'       => $model->getPrimaryKey(),
 				'content'  => $content,
 				'children' => $this->prepareItems($model->children(1)),
+				'options'  => [
+					'class' => $active ? $activeClass : ''
+				]
 			];
 		}
 
