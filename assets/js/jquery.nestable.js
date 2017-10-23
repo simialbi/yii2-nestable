@@ -427,9 +427,14 @@
 			}
 			if (this.pointEl.hasClass(opt.emptyClass)) {
 				isEmpty = true;
-			}
-			else if (!this.pointEl.length || !this.pointEl.hasClass(opt.itemClass)) {
-				return;
+			} else if (!this.pointEl.length || !this.pointEl.hasClass(opt.itemClass)) {
+				var tmp = this.pointEl.closest('.' + opt.itemClass);
+				console.log(this.pointEl, tmp);
+				if (!tmp.length) {
+					return;
+				}
+
+				this.pointEl = tmp;
 			}
 
 			// find parent list of item under cursor
