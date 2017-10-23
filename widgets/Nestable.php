@@ -266,14 +266,17 @@ class Nestable extends Widget {
 				$active = call_user_func_array($active, ['model' => $model]);
 			}
 
-			$items[] = [
+			$item = [
 				'id'       => $model->getPrimaryKey(),
 				'content'  => $content,
 				'children' => $this->prepareItems($model->children(1)),
-				'options'  => [
-					'class' => $active ? $activeClass : ''
-				]
+				'options'  => $this->itemOptions
 			];
+			if ($active) {
+				Html::addCssClass($item['options'], $activeClass);
+			}
+
+			$items[] = $item;
 		}
 
 		return $items;
