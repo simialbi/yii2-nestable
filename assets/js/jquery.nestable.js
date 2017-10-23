@@ -429,7 +429,6 @@
 				isEmpty = true;
 			} else if (!this.pointEl.length || !this.pointEl.hasClass(opt.itemClass)) {
 				var tmp = this.pointEl.closest('.' + opt.itemClass);
-				console.log(this.pointEl, tmp);
 				if (!tmp.length) {
 					return;
 				}
