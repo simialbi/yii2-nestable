@@ -62,7 +62,7 @@ class MoveController extends Controller {
 			]));
 		}
 
-		if ($model->makeRoot() && $context) {
+		if (($model->isRoot() || $model->makeRoot()) && $context) {
 			$model->moveAfter($model);
 		}
 
