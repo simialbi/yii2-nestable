@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: karlen
- * Date: 17.10.2017
- * Time: 11:21
+ * @package yii2-nestable
+ * @author Simon Karlen <simi.albi@gmail.com>
+ * @version 1.0
  */
 
 namespace simialbi\yii2\nestable\controllers;

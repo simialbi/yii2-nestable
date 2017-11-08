@@ -1,15 +1,14 @@
 <?php
-
 /**
- * @copyright Copyright &copy; Arno Slatius 2015
  * @package yii2-nestable
+ * @author Simon Karlen <simi.albi@gmail.com>
  * @version 1.0
  */
 
 namespace simialbi\yii2\nestable\widgets;
 
 use simialbi\yii2\nestable\NestableAsset;
-use yii\base\Widget;
+use simialbi\yii2\widgets\Widget;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -200,16 +199,20 @@ class Nestable extends Widget {
 	}
 
 	/**
-	 * Registers the nestable javascript assets and builds the required js for the widget
+	 * @inheritdoc
 	 */
-	protected function registerPlugin() {
+	protected function registerPlugin($pluginName = 'nestable') {
 		$id   = $this->options['id'];
-		$view = $this->getView();
+		$view = $this->view;
+
 		NestableAsset::register($view);
+
 		$js = [
-			"jQuery('#$id').nestable({$this->getClientOptions()});"
+			"jQuery('#$id').$pluginName({$this->getClientOptions()});"
 		];
 		$view->registerJs(implode("\n", $js), $view::POS_READY);
+
+		$this->registerClientEvents();
 	}
 
 	/**
@@ -218,7 +221,14 @@ class Nestable extends Widget {
 	 * @return string
 	 */
 	protected function getClientOptions() {
-		return Json::encode($this->clientOptions);
+		$listClass = ArrayHelper::getValue($this->listOptions, 'class', []);
+		if (!is_array($listClass)) {
+			$listClass = [$listClass];
+		}
+		$clientOptions = ArrayHelper::merge([
+			'listClass' => implode(' ', $listClass),
+		], $this->clientOptions);
+		return Json::encode($clientOptions);
 	}
 
 

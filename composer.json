@@ -21,7 +21,8 @@
     ],
     "require": {
 		"yiisoft/yii2": "~2.0",
-        "creocoder/yii2-nested-sets": "*"
+        "creocoder/yii2-nested-sets": "*",
+		"simialbi/yii2-simialbi-base": "*"
     },
     "autoload": {
         "psr-4": {

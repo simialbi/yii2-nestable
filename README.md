@@ -1,8 +1,10 @@
 # yii2-nestable
 
-Yii 2.0 implementation of nested set behavior using jquery.nestable plugin.
-- jquery.nestable plugin: http://dbushell.github.io/Nestable/
-- Nested Sets Behavior for Yii 2: https://github.com/creocoder/yii2-nested-sets
+Yii 2.0 implementation of nested set behavior using jquery.nestable plugin based on
+Arno Slatius implementation.
+* [slatiusa/yii2-nestable](https://github.com/ASlatius/yii2-nestable): Arno Slatius implementation
+* [jquery.nestable plugin](http://dbushell.github.io/Nestable/) 
+* [Nested Sets Behavior](https://github.com/creocoder/yii2-nested-sets) for Yii 2
 
 ## Installation
 
@@ -11,13 +13,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-$ php composer.phar require slatiusa/yii2-nestable "dev-master"
+$ php composer.phar require simialbi/yii2-nestable "~1.0"
 ```
 
 or add
 
 ```
-"slatiusa/yii2-nestable": "dev-master"
+"simialbi/yii2-nestable": "~1.0"
 ```
 
 to the ```require``` section of your `composer.json` file.

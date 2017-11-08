@@ -1,13 +1,13 @@
 <?php
-
 /**
- * @copyright Copyright &copy; Arno Slatius 2015
  * @package yii2-nestable
+ * @author Simon Karlen <simi.albi@gmail.com>
  * @version 1.0
  */
 
 namespace simialbi\yii2\nestable;
-use yii\web\AssetBundle;
+
+use simialbi\yii2\web\AssetBundle;
 
 /**
  * Nestable bundle

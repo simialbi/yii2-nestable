@@ -1,17 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: karlen
- * Date: 17.10.2017
- * Time: 14:10
+ * @package yii2-nestable
+ * @author Simon Karlen <simi.albi@gmail.com>
+ * @version 1.0
  */
 
 namespace simialbi\yii2\nestable;
 
-use yii\i18n\GettextMessageSource;
-use Yii;
-
-class Module extends \yii\base\Module {
+class Module extends \simialbi\yii2\base\Module {
 	/**
 	 * @var string the namespace that controller classes are in.
 	 * This namespace will be used to load controller classes by prepending it to the controller
@@ -47,16 +43,5 @@ class Module extends \yii\base\Module {
 		parent::init();
 
 		$this->registerTranslations();
-	}
-
-	/**
-	 * Init module translations
-	 */
-	public function registerTranslations() {
-		Yii::$app->i18n->translations['simialbi/nestable*'] = [
-			'class'          => GettextMessageSource::className(),
-			'sourceLanguage' => 'en-US',
-			'basePath'       => $this->getBasePath().'/messages'
-		];
 	}
 }
