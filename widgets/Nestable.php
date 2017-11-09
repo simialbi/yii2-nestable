@@ -7,9 +7,7 @@
 
 namespace simialbi\yii2\nestable\widgets;
 
-use simialbi\yii2\nestable\NestableAsset;
 use simialbi\yii2\widgets\Widget;
-use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
@@ -126,6 +124,13 @@ class Nestable extends Widget {
 		} else {
 			$this->clientOptions['url'] = Url::to(['/nestable/move']);
 		}
+		if (isset($this->listOptions['class']) && (!isset($this->clientOptions['listClass']))) {
+			$listClass = $this->listOptions['class'];
+			if (!is_array($listClass)) {
+				$listClass = explode(' ', $listClass);
+			}
+			$this->clientOptions['listClass'] = implode(' ', $listClass);
+		}
 
 		parent::init();
 
@@ -196,39 +201,6 @@ class Nestable extends Widget {
 		}
 
 		return $items;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function registerPlugin($pluginName = 'nestable') {
-		$id   = $this->options['id'];
-		$view = $this->view;
-
-		NestableAsset::register($view);
-
-		$js = [
-			"jQuery('#$id').$pluginName({$this->getClientOptions()});"
-		];
-		$view->registerJs(implode("\n", $js), $view::POS_READY);
-
-		$this->registerClientEvents();
-	}
-
-	/**
-	 * Get client options as json encoded string
-	 *
-	 * @return string
-	 */
-	protected function getClientOptions() {
-		$listClass = ArrayHelper::getValue($this->listOptions, 'class', []);
-		if (!is_array($listClass)) {
-			$listClass = [$listClass];
-		}
-		$clientOptions = ArrayHelper::merge([
-			'listClass' => implode(' ', $listClass),
-		], $this->clientOptions);
-		return Json::encode($clientOptions);
 	}
 
 

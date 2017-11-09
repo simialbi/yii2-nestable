@@ -27,46 +27,33 @@ to the ```require``` section of your `composer.json` file.
 ## Usage
 
 Make sure you've attached the NestedSetsBehavior (creocoder/yii2-nested-sets) correctly to your model.
-Then add the node move handler to you controller by attaching the supplied action;
-
-```php
-use slatiusa\nestable\Nestable;
-
-class yourClass extends Controller {
-	public function actions() {
-		return [
-			'nodeMove' => [
-				'class' => 'slatiusa\nestable\NodeMoveAction',
-				'modelName' => TreeModel::className(),
-			],
-		];
-	}
-}
-
-```
 
 And then render the widget in your view;
 
-```
+```php
+<?php
+use simialbi\yii2\nestable\widgets\Nestable;
+use simialbi\yii2\nestable\models\ActiveRecord;
+
 echo Nestable::widget([
     'type' => Nestable::TYPE_WITH_HANDLE,
-    'query' => TreeModel::find()->where([ top of tree ]),
+    'query' => ActiveRecord::find()->where([ 'depth' => 0 ]),
     'modelOptions' => [
         'name' => 'name'
     ],
-    'pluginEvents' => [
+    'clientEvents' => [
         'change' => 'function(e) {}',
     ],
     'clientOptions' => [
         'maxDepth' => 7,
     ],
 ]);
-
+?>
 ```
 
 You can either supply an ActiveQuery object in `query` from which a tree will be built.
 You can also supply an item list;
-```
+```php
     ...
     'items' => [
         ['content' => 'Item # 1', 'id' => 1],
@@ -85,3 +72,7 @@ You can alternatively supply an unnamed `function($model)` to build your own con
 
 Supply a `pluginEvents['change']` with some JavaScript code to catch the change event fired by jquery.nestable plugin.
 The `pluginOptions` accepts all the options for the original jquery.nestable plugin.
+
+## License
+
+**yii2-nestable** is released under MIT license. See bundled [LICENSE](LICENSE) for details.
