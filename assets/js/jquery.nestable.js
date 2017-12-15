@@ -44,8 +44,10 @@
 		placeClass: 'dd-placeholder',
 		noDragClass: 'dd-nodrag',
 		emptyClass: 'dd-empty',
+		activeClass: 'dd-active',
 		expandBtnHTML: '<button data-action="expand" type="button">Expand</button>',
 		collapseBtnHTML: '<button data-action="collapse" type="button">Collapse</button>',
+		initCollapsed: false,
 		group: 0,
 		maxDepth: 5,
 		threshold: 20,
@@ -129,7 +131,15 @@
 				list.w.on(eEnd, onEndEvent);
 			}
 
-			list.collapseAll();
+			if (this.options.initCollapsed) {
+				list.collapseAll();
+				var activeItem = list.find('.' + this.options.activeClass);
+				if (activeItem.length) {
+					activeItem.parents('.' + this.options.collapsedClass).each(function () {
+						list.expandItem($(this));
+					});
+				}
+			}
 
 		},
 
