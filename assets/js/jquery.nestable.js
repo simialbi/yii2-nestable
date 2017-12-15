@@ -507,7 +507,9 @@
 				$(this).data("nestable-id", new Date().getTime());
 			} else {
 				if (typeof params === 'string' && typeof plugin[params] === 'function') {
-					retval = plugin[params]();
+					var args = arguments;
+					args.shift();
+					retval = plugin[params](args);
 				}
 			}
 		});
