@@ -495,9 +495,20 @@
 
 	};
 
-	$.fn.nestable = function (params) {
+	$.fn.nestable = function () {
 		var lists = this,
-			retval = this;
+			retval = this,
+			params;
+
+		var args = [];
+		for (var i = 0; i < arguments.length; i++) {
+			if (i === 0) {
+				params = arguments[i];
+			}
+			if (i > 0) {
+				args.push(arguments[i]);
+			}
+		}
 
 		lists.each(function () {
 			var plugin = $(this).data("nestable");
@@ -507,12 +518,6 @@
 				$(this).data("nestable-id", new Date().getTime());
 			} else {
 				if (typeof params === 'string' && typeof plugin[params] === 'function') {
-					var args = [];
-					for (var i = 0; i < arguments.length; i++) {
-						if (i > 0) {
-							args.push(arguments[i]);
-						}
-					}
 					retval = plugin[params].apply(plugin, args);
 				}
 			}
