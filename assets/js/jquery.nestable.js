@@ -129,6 +129,8 @@
 				list.w.on(eEnd, onEndEvent);
 			}
 
+			list.collapseAll();
+
 		},
 
 		serialize: function () {
