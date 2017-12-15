@@ -507,9 +507,13 @@
 				$(this).data("nestable-id", new Date().getTime());
 			} else {
 				if (typeof params === 'string' && typeof plugin[params] === 'function') {
-					var args = arguments;
-					args.shift();
-					retval = plugin[params](args);
+					var args = [];
+					for (var i = 0; i < arguments.length; i++) {
+						if (i > 0) {
+							args.push(arguments[i]);
+						}
+					}
+					retval = plugin[params].apply(plugin, args);
 				}
 			}
 		});
