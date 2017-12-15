@@ -133,7 +133,7 @@
 
 			if (this.options.initCollapsed) {
 				list.collapseAll();
-				var activeItem = list.find('.' + this.options.activeClass);
+				var activeItem = list.el.find('.' + this.options.activeClass);
 				if (activeItem.length) {
 					activeItem.parents('.' + this.options.collapsedClass).each(function () {
 						list.expandItem($(this));
