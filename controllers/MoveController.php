@@ -53,6 +53,7 @@ class MoveController extends Controller {
 		$context = $modelClass::findOne($context);
 
 		/* @var $model \simialbi\yii2\nestable\models\ActiveRecord */
+		/* @var $context \simialbi\yii2\nestable\models\ActiveRecord */
 
 		if (!$model->hasMethod('makeRoot', true)) {
 			throw new InvalidConfigException(Yii::t('simialbi/nestable', 'Model {model} must extend {className}', [
@@ -62,7 +63,7 @@ class MoveController extends Controller {
 		}
 
 		if (($model->isRoot() || $model->makeRoot()) && $context) {
-			$model->moveAfter($model);
+			$model->moveAfter($context);
 		}
 
 		Yii::$app->response->setStatusCode(204);
