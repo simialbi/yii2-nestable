@@ -58,12 +58,16 @@ class MoveController extends Controller {
 		if (!$model->hasMethod('makeRoot', true)) {
 			throw new InvalidConfigException(Yii::t('simialbi/nestable', 'Model {model} must extend {className}', [
 				'className' => NestedSetsBehavior::className(),
-				'model'     => $model::className()
+				'model'     => \simialbi\yii2\nestable\models\ActiveRecord::className()
 			]));
 		}
 
-		if (($model->isRoot() || $model->makeRoot()) && $context) {
-			$model->moveAfter($context);
+		if (($model->isRoot() || $model->makeRoot())) {
+			if ($context) {
+				$model->moveAfter($context);
+			} else {
+				$model->moveAsFirst();
+			}
 		}
 
 		Yii::$app->response->setStatusCode(204);
@@ -87,7 +91,7 @@ class MoveController extends Controller {
 		if (!$model->hasMethod('insertAfter', true)) {
 			throw new InvalidConfigException(Yii::t('simialbi/nestable', 'Model {model} must extend {className}', [
 				'className' => NestedSetsBehavior::className(),
-				'model'     => $model::className()
+				'model'     => \simialbi\yii2\nestable\models\ActiveRecord::className()
 			]));
 		}
 
@@ -114,7 +118,7 @@ class MoveController extends Controller {
 		if (!$model->hasMethod('insertBefore', true)) {
 			throw new InvalidConfigException(Yii::t('simialbi/nestable', 'Model {model} must extend {className}', [
 				'className' => NestedSetsBehavior::className(),
-				'model'     => $model::className()
+				'model'     => \simialbi\yii2\nestable\models\ActiveRecord::className()
 			]));
 		}
 
@@ -141,11 +145,38 @@ class MoveController extends Controller {
 		if (!$model->hasMethod('appendTo', true)) {
 			throw new InvalidConfigException(Yii::t('simialbi/nestable', 'Model {model} must extend {className}', [
 				'className' => NestedSetsBehavior::className(),
-				'model'     => $model::className()
+				'model'     => \simialbi\yii2\nestable\models\ActiveRecord::className()
 			]));
 		}
 
 		$model->appendTo($context);
+
+		Yii::$app->response->setStatusCode(204);
+	}
+
+	/**
+	 * Prepend node to context node
+	 *
+	 * @param mixed $id primary key value of node
+	 * @param mixed $context primary key value of context node
+	 * @param string $modelClass class name
+	 *
+	 * @throws InvalidConfigException
+	 */
+	public function actionPrepend($id, $context, $modelClass = '') {
+		/* @var $modelClass \yii\db\ActiveRecord */
+		$model   = $modelClass::findOne($id);
+		$context = $modelClass::findOne($context);
+		/* @var $model \simialbi\yii2\nestable\models\ActiveRecord */
+
+		if (!$model->hasMethod('prependTo', true)) {
+			throw new InvalidConfigException(Yii::t('simialbi/nestable', 'Model {model} must extend {className}', [
+				'className' => NestedSetsBehavior::className(),
+				'model'     => \simialbi\yii2\nestable\models\ActiveRecord::className()
+			]));
+		}
+
+		$model->prependTo($context);
 
 		Yii::$app->response->setStatusCode(204);
 	}
