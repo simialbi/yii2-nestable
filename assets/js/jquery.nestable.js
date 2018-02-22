@@ -312,17 +312,19 @@
 				}
 			}
 
-			$.ajax({
-				url: url,
-				context: document.body,
-				data: {
-					id: el.data('id'),
-					context: context,
-					modelClass: this.options.modelClass
-				}
-			}).fail(function (jqXHR) {
-				window.alert(jqXHR.responseText);
-			});
+			if (this.options.url && this.options.modelClass) {
+				$.ajax({
+					url: url,
+					context: document.body,
+					data: {
+						id: el.data('id'),
+						context: context,
+						modelClass: this.options.modelClass
+					}
+				}).fail(function (jqXHR) {
+					window.alert(jqXHR.responseText);
+				});
+			}
 
 			this.el.trigger('change');
 			if (this.hasNewRoot) {
