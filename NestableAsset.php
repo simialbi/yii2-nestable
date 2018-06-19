@@ -17,7 +17,7 @@ use simialbi\yii2\web\AssetBundle;
  * @since 1.0
  */
 class NestableAsset extends AssetBundle {
-	public $sourcePath = __DIR__.'/assets';
+	public $sourcePath = __DIR__ . '/assets';
 
 	public $js = [
 		'js/jquery.nestable.js'

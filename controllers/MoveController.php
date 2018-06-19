@@ -7,12 +7,13 @@
 
 namespace simialbi\yii2\nestable\controllers;
 
-use creocoder\nestedsets\NestedSetsBehavior;
+use simialbi\yii2\nestable\event\AfterMoveEvent;
+use simialbi\yii2\nestable\Module;
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\filters\ContentNegotiator;
 use yii\web\Controller;
 use yii\web\Response;
-use Yii;
 
 /**
  * Handles movement of nodes
@@ -29,7 +30,7 @@ class MoveController extends Controller {
 	public function behaviors() {
 		return [
 			'contentNegotiator' => [
-				'class'   => ContentNegotiator::className(),
+				'class'   => ContentNegotiator::class,
 				'formats' => [
 					'application/json' => Response::FORMAT_JSON,
 					'application/xml'  => Response::FORMAT_XML,
@@ -57,8 +58,8 @@ class MoveController extends Controller {
 
 		if (!$model->hasMethod('makeRoot', true)) {
 			throw new InvalidConfigException(Yii::t('simialbi/nestable', 'Model {model} must extend {className}', [
-				'className' => NestedSetsBehavior::className(),
-				'model'     => \simialbi\yii2\nestable\models\ActiveRecord::className()
+				'className' => \creocoder\nestedsets\NestedSetsBehavior::class,
+				'model'     => get_class($model)
 			]));
 		}
 
@@ -69,6 +70,11 @@ class MoveController extends Controller {
 				$model->moveAsFirst();
 			}
 		}
+
+		$this->module->trigger(Module::EVENT_AFTER_MOVE, new AfterMoveEvent([
+			'operation' => AfterMoveEvent::OPERATION_ROOT,
+			'sender'    => $model
+		]));
 
 		Yii::$app->response->setStatusCode(204);
 	}
@@ -90,12 +96,17 @@ class MoveController extends Controller {
 
 		if (!$model->hasMethod('insertAfter', true)) {
 			throw new InvalidConfigException(Yii::t('simialbi/nestable', 'Model {model} must extend {className}', [
-				'className' => NestedSetsBehavior::className(),
-				'model'     => \simialbi\yii2\nestable\models\ActiveRecord::className()
+				'className' => \creocoder\nestedsets\NestedSetsBehavior::class,
+				'model'     => get_class($model)
 			]));
 		}
 
 		$model->insertAfter($context);
+
+		$this->module->trigger(Module::EVENT_AFTER_MOVE, new AfterMoveEvent([
+			'operation' => AfterMoveEvent::OPERATION_AFTER,
+			'sender'    => $model
+		]));
 
 		Yii::$app->response->setStatusCode(204);
 	}
@@ -117,12 +128,17 @@ class MoveController extends Controller {
 
 		if (!$model->hasMethod('insertBefore', true)) {
 			throw new InvalidConfigException(Yii::t('simialbi/nestable', 'Model {model} must extend {className}', [
-				'className' => NestedSetsBehavior::className(),
-				'model'     => \simialbi\yii2\nestable\models\ActiveRecord::className()
+				'className' => \creocoder\nestedsets\NestedSetsBehavior::class,
+				'model'     => get_class($model)
 			]));
 		}
 
 		$model->insertBefore($context);
+
+		$this->module->trigger(Module::EVENT_AFTER_MOVE, new AfterMoveEvent([
+			'operation' => AfterMoveEvent::OPERATION_BEFORE,
+			'sender'    => $model
+		]));
 
 		Yii::$app->response->setStatusCode(204);
 	}
@@ -144,12 +160,17 @@ class MoveController extends Controller {
 
 		if (!$model->hasMethod('appendTo', true)) {
 			throw new InvalidConfigException(Yii::t('simialbi/nestable', 'Model {model} must extend {className}', [
-				'className' => NestedSetsBehavior::className(),
-				'model'     => \simialbi\yii2\nestable\models\ActiveRecord::className()
+				'className' => \creocoder\nestedsets\NestedSetsBehavior::class,
+				'model'     => get_class($model)
 			]));
 		}
 
 		$model->appendTo($context);
+
+		$this->module->trigger(Module::EVENT_AFTER_MOVE, new AfterMoveEvent([
+			'operation' => AfterMoveEvent::OPERATION_APPEND,
+			'sender'    => $model
+		]));
 
 		Yii::$app->response->setStatusCode(204);
 	}
@@ -171,12 +192,17 @@ class MoveController extends Controller {
 
 		if (!$model->hasMethod('prependTo', true)) {
 			throw new InvalidConfigException(Yii::t('simialbi/nestable', 'Model {model} must extend {className}', [
-				'className' => NestedSetsBehavior::className(),
-				'model'     => \simialbi\yii2\nestable\models\ActiveRecord::className()
+				'className' => \creocoder\nestedsets\NestedSetsBehavior::class,
+				'model'     => get_class($model)
 			]));
 		}
 
 		$model->prependTo($context);
+
+		$this->module->trigger(Module::EVENT_AFTER_MOVE, new AfterMoveEvent([
+			'operation' => AfterMoveEvent::OPERATION_PREPEND,
+			'sender'    => $model
+		]));
 
 		Yii::$app->response->setStatusCode(204);
 	}

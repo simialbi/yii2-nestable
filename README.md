@@ -33,20 +33,14 @@ And then render the widget in your view;
 ```php
 <?php
 use simialbi\yii2\nestable\widgets\Nestable;
-use simialbi\yii2\nestable\models\ActiveRecord;
 
 echo Nestable::widget([
-    'type' => Nestable::TYPE_WITH_HANDLE,
-    'query' => ActiveRecord::find()->where([ 'depth' => 0 ]),
-    'modelOptions' => [
-        'name' => 'name'
-    ],
     'clientEvents' => [
         'change' => 'function(e) {}',
     ],
     'clientOptions' => [
         'maxDepth' => 7,
-    ],
+    ]
 ]);
 ?>
 ```
