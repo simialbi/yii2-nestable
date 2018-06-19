@@ -104,8 +104,9 @@ class MoveController extends Controller {
 		$model->insertAfter($context);
 
 		$this->module->trigger(Module::EVENT_AFTER_MOVE, new AfterMoveEvent([
-			'operation' => AfterMoveEvent::OPERATION_AFTER,
-			'sender'    => $model
+			'operation'    => AfterMoveEvent::OPERATION_AFTER,
+			'sender'       => $model,
+			'contextModel' => $context
 		]));
 
 		Yii::$app->response->setStatusCode(204);
@@ -136,8 +137,9 @@ class MoveController extends Controller {
 		$model->insertBefore($context);
 
 		$this->module->trigger(Module::EVENT_AFTER_MOVE, new AfterMoveEvent([
-			'operation' => AfterMoveEvent::OPERATION_BEFORE,
-			'sender'    => $model
+			'operation'    => AfterMoveEvent::OPERATION_BEFORE,
+			'sender'       => $model,
+			'contextModel' => $context
 		]));
 
 		Yii::$app->response->setStatusCode(204);
@@ -168,8 +170,9 @@ class MoveController extends Controller {
 		$model->appendTo($context);
 
 		$this->module->trigger(Module::EVENT_AFTER_MOVE, new AfterMoveEvent([
-			'operation' => AfterMoveEvent::OPERATION_APPEND,
-			'sender'    => $model
+			'operation'    => AfterMoveEvent::OPERATION_APPEND,
+			'sender'       => $model,
+			'contextModel' => $context
 		]));
 
 		Yii::$app->response->setStatusCode(204);
@@ -200,8 +203,9 @@ class MoveController extends Controller {
 		$model->prependTo($context);
 
 		$this->module->trigger(Module::EVENT_AFTER_MOVE, new AfterMoveEvent([
-			'operation' => AfterMoveEvent::OPERATION_PREPEND,
-			'sender'    => $model
+			'operation'    => AfterMoveEvent::OPERATION_PREPEND,
+			'sender'       => $model,
+			'contextModel' => $context
 		]));
 
 		Yii::$app->response->setStatusCode(204);

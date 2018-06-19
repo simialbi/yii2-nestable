@@ -6,7 +6,6 @@
 
 namespace simialbi\yii2\nestable\event;
 
-
 use yii\base\Event;
 
 /**
@@ -35,9 +34,12 @@ class AfterMoveEvent extends Event {
 	 * @const constant defining operation `prepend`
 	 */
 	const OPERATION_PREPEND = 'prepend';
-
 	/**
 	 * @var string Executed operation one of 'root', 'after', 'before', 'append', 'prepend'
 	 */
 	public $operation = self::OPERATION_ROOT;
+	/**
+	 * @var \simialbi\yii2\nestable\models\ActiveRecord|null Context model for all events except 'root'
+	 */
+	public $contextModel = null;
 }
