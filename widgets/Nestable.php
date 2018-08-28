@@ -118,7 +118,7 @@ class Nestable extends Widget {
 				if (!empty($subItems)) {
 					$content .= Html::beginTag($listTag, $listOptions) . "\n";
 					$content .= $this->renderItems($subItems);
-					$content .= Html::endTag($tag) . "\n";
+					$content .= Html::endTag($listTag) . "\n";
 				}
 				$content .= Html::endTag($tag);
 			} else {
@@ -127,7 +127,7 @@ class Nestable extends Widget {
 				if (!empty($subItems)) {
 					$content .= Html::beginTag($listTag, $listOptions) . "\n";
 					$content .= $this->renderItems($subItems);
-					$content .= Html::endTag($tag) . "\n";
+					$content .= Html::endTag($listTag) . "\n";
 				}
 				$content .= Html::endTag($tag);
 			}
