@@ -8,41 +8,45 @@
 namespace simialbi\yii2\nestable\widgets;
 
 use simialbi\yii2\widgets\Widget;
-use yii\helpers\Url;
+use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /**
  * Create nestable lists using drag & drop for Yii 2.0.
- * Based on jquery.nestable.js plugin.
+ * Based on nestedSortable plugin.
  *
- * @author Arno Slatius <a.slatius@gmail.com>
  * @author Simon Karlen <simi.albi@gmail.com>
  * @since 1.0
  */
 class Nestable extends Widget {
 	/**
-	 * @var array the HTML attributes for the title tag.
+	 * @var array the HTML attributes for the container tag.
 	 * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
 	 */
 	public $options = [];
-
 	/**
-	 * @var string the URL to send the callback to. Defaults to current controller / actionNodeMove which
-	 * can be provided by \slatiusa\nestable\nestableNodeMoveAction by registering that as an action in the
-	 * controller rendering the Widget.
-	 * ```
-	 * public function actions() {
-	 *    return [
-	 *        'nodeMove' => [
-	 *            'class' => 'slatiusa\nestable\NestableNodeMoveAction',
-	 *        ],
-	 *    ];
-	 * }
-	 * ```
-	 * Defaults to [current controller/nodeMove] if not set.
+	 * @var array list of sortable items. Each item can be a string representing the item content
+	 * or an array of the following structure:
+	 *
+	 * ~~~
+	 * [
+	 *     'content' => 'item content',
+	 *     // the HTML attributes of the item container tag. This will overwrite "itemOptions".
+	 *     'options' => [],
+	 * ]
+	 * ~~~
 	 */
-	public $url;
-
+	public $items = [];
+	/**
+	 * @var array list of HTML attributes for the item container tags. This will be overwritten
+	 * by the "options" set in individual [[items]]. The following special options are recognized:
+	 *
+	 * - tag: string, defaults to "li", the tag name of the item container tags.
+	 *
+	 * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+	 */
+	public $itemOptions = [];
 	/**
 	 * @var array client options
 	 * @see also https://github.com/dbushell/Nestable#configuration
@@ -51,31 +55,54 @@ class Nestable extends Widget {
 
 	/**
 	 * Initializes the widget
+	 * @throws InvalidConfigException
 	 */
 	public function init() {
 		if (!isset($this->options['id'])) {
 			$this->options['id'] = $this->getId();
 		}
-		if (null != $this->url) {
-			$this->clientOptions['url'] = $this->url;
-		} else {
-			$this->clientOptions['url'] = Url::to(['/nestable/move']);
+		if (!isset($this->clientOptions['toleranceElement'])) {
+			throw new InvalidConfigException("Client option 'toleranceElement' must be set");
 		}
 
 		parent::init();
-
-		Html::addCssClass($this->options, 'dd');
-		echo Html::beginTag('div', $this->options);
 	}
 
 	/**
-	 * Runs the widget
-	 *
-	 * @return string|void
+	 * Renders the widget.
+	 * @throws InvalidConfigException
 	 */
 	public function run() {
-		echo Html::endTag('div');
+		$options = $this->options;
+		$tag     = ArrayHelper::remove($options, 'tag', 'ul');
+		echo Html::beginTag($tag, $options) . "\n";
+		echo $this->renderItems() . "\n";
+		echo Html::endTag($tag) . "\n";
+		$this->registerPlugin('nestedSortable');
+	}
 
-		$this->registerPlugin();
+	/**
+	 * Renders sortable items as specified on [[items]].
+	 * @return string the rendering result.
+	 * @throws InvalidConfigException.
+	 */
+	public function renderItems() {
+		$items = [];
+		foreach ($this->items as $item) {
+			$options = $this->itemOptions;
+			$tag     = ArrayHelper::remove($options, 'tag', 'li');
+			if (is_array($item)) {
+				if (!isset($item['content'])) {
+					throw new InvalidConfigException("The 'content' option is required.");
+				}
+				$options = array_merge($options, ArrayHelper::getValue($item, 'options', []));
+				$tag     = ArrayHelper::remove($options, 'tag', $tag);
+				$items[] = Html::tag($tag, $item['content'], $options);
+			} else {
+				$items[] = Html::tag($tag, $item, $options);
+			}
+		}
+
+		return implode("\n", $items);
 	}
 }

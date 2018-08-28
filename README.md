@@ -3,7 +3,7 @@
 Yii 2.0 implementation of nested set behavior using jquery.nestable plugin based on
 Arno Slatius implementation.
 * [slatiusa/yii2-nestable](https://github.com/ASlatius/yii2-nestable): Arno Slatius implementation
-* [jquery.nestable plugin](http://dbushell.github.io/Nestable/) 
+* [nestedSortable jQuery plugin](https://github.com/ilikenwf/nestedSortable) 
 * [Nested Sets Behavior](https://github.com/creocoder/yii2-nested-sets) for Yii 2
 
 ## Installation

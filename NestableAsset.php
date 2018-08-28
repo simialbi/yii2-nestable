@@ -12,22 +12,26 @@ use simialbi\yii2\web\AssetBundle;
 /**
  * Nestable bundle
  *
- * @author Arno Slatius <a.slatius@gmail.com>
  * @author Simon Karlen <simi.albi@gmail.com>
  * @since 1.0
  */
 class NestableAsset extends AssetBundle {
-	public $sourcePath = __DIR__ . '/assets';
+	/**
+	 * {@inheritdoc}
+	 */
+	public $sourcePath = '@bower/jquery-nested-sortable';
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public $js = [
-		'js/jquery.nestable.js'
+		'jquery.mjs.nestedSortable.js'
 	];
 
-	public $css = [
-		'css/nestable.min.css'
-	];
-
+	/**
+	 * {@inheritdoc}
+	 */
 	public $depends = [
-		'yii\web\JqueryAsset'
+		'yii\jui\JuiAsset'
 	];
 }
