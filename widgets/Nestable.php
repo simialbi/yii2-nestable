@@ -75,10 +75,12 @@ class Nestable extends Widget {
 	public function run() {
 		$options = $this->options;
 		$tag     = ArrayHelper::remove($options, 'tag', 'ul');
-		echo Html::beginTag($tag, $options) . "\n";
-		echo $this->renderItems($this->items) . "\n";
-		echo Html::endTag($tag) . "\n";
+		$content = Html::beginTag($tag, $options) . "\n";
+		$content .= $this->renderItems($this->items) . "\n";
+		$content .= Html::endTag($tag) . "\n";
 		$this->registerPlugin('nestedSortable');
+
+		return $content;
 	}
 
 	/**
@@ -92,6 +94,8 @@ class Nestable extends Widget {
 	 * @throws InvalidConfigException .
 	 */
 	public function renderItems(array $items) {
+		$listOptions   = $this->options;
+		$listTag       = ArrayHelper::remove($listOptions, 'tag', 'ul');
 		$renderedItems = [];
 		foreach ($items as $item) {
 			$options  = $this->itemOptions;
@@ -106,14 +110,18 @@ class Nestable extends Widget {
 				$content = Html::beginTag($tag, $options);
 				$content .= $item['content'];
 				if (!empty($subItems)) {
+					$content .= Html::beginTag($listTag, $listOptions) . "\n";
 					$content .= $this->renderItems($subItems);
+					$content .= Html::endTag($tag) . "\n";
 				}
 				$content .= Html::endTag($tag);
 			} else {
 				$content = Html::beginTag($tag, $options);
 				$content .= $item;
 				if (!empty($subItems)) {
+					$content .= Html::beginTag($listTag, $listOptions) . "\n";
 					$content .= $this->renderItems($subItems);
+					$content .= Html::endTag($tag) . "\n";
 				}
 				$content .= Html::endTag($tag);
 			}
