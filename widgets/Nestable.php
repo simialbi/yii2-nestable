@@ -111,10 +111,11 @@ class Nestable extends Widget {
 				if (!isset($item['content'])) {
 					throw new InvalidConfigException("The 'content' option is required.");
 				}
-				$options = array_merge($options, ArrayHelper::getValue($item, 'options', []));
-				$tag     = ArrayHelper::remove($options, 'tag', $tag);
-				$content = Html::beginTag($tag, $options);
-				$content .= $item['content'];
+				$options     = array_merge($options, ArrayHelper::getValue($item, 'options', []));
+				$listOptions = array_merge($listOptions, ArrayHelper::getValue($item, 'listOptions', []));
+				$tag         = ArrayHelper::remove($options, 'tag', $tag);
+				$content     = Html::beginTag($tag, $options);
+				$content     .= $item['content'];
 				if (!empty($subItems)) {
 					$content .= Html::beginTag($listTag, $listOptions) . "\n";
 					$content .= $this->renderItems($subItems);
