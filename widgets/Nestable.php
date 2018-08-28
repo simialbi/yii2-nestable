@@ -76,33 +76,50 @@ class Nestable extends Widget {
 		$options = $this->options;
 		$tag     = ArrayHelper::remove($options, 'tag', 'ul');
 		echo Html::beginTag($tag, $options) . "\n";
-		echo $this->renderItems() . "\n";
+		echo $this->renderItems($this->items) . "\n";
 		echo Html::endTag($tag) . "\n";
 		$this->registerPlugin('nestedSortable');
 	}
 
 	/**
-	 * Renders sortable items as specified on [[items]].
+	 * Renders nestable items
+	 *
+	 * @param array $items list of sortable items. Each item can be a string representing the item content
+	 * or an array (see class property [[items]])
+	 *
 	 * @return string the rendering result.
-	 * @throws InvalidConfigException.
+	 * @see items
+	 * @throws InvalidConfigException .
 	 */
-	public function renderItems() {
-		$items = [];
-		foreach ($this->items as $item) {
-			$options = $this->itemOptions;
-			$tag     = ArrayHelper::remove($options, 'tag', 'li');
+	public function renderItems($items) {
+		$renderedItems = [];
+		foreach ($items as $item) {
+			$options  = $this->itemOptions;
+			$tag      = ArrayHelper::remove($options, 'tag', 'li');
+			$subItems = ArrayHelper::remove($item, 'items', []);
 			if (is_array($item)) {
 				if (!isset($item['content'])) {
 					throw new InvalidConfigException("The 'content' option is required.");
 				}
 				$options = array_merge($options, ArrayHelper::getValue($item, 'options', []));
 				$tag     = ArrayHelper::remove($options, 'tag', $tag);
-				$items[] = Html::tag($tag, $item['content'], $options);
+				$content = Html::beginTag($tag, $options);
+				$content .= $item['content'];
+				if (!empty($subItems)) {
+					$content .= $this->renderItems($subItems);
+				}
+				$content .= Html::endTag($tag);
 			} else {
-				$items[] = Html::tag($tag, $item, $options);
+				$content = Html::beginTag($tag, $options);
+				$content .= $item;
+				if (!empty($subItems)) {
+					$content .= $this->renderItems($subItems);
+				}
+				$content .= Html::endTag($tag);
 			}
+			$renderedItems[] = $content;
 		}
 
-		return implode("\n", $items);
+		return implode("\n", $renderedItems);
 	}
 }
