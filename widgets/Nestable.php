@@ -64,6 +64,9 @@ class Nestable extends Widget {
 		if (!isset($this->clientOptions['toleranceElement'])) {
 			throw new InvalidConfigException("Client option 'toleranceElement' must be set");
 		}
+		if (!isset($this->clientOptions['listType'])) {
+			$this->clientOptions['listType'] = ArrayHelper::getValue($this->options, 'tag', 'ul');
+		}
 
 		parent::init();
 	}
