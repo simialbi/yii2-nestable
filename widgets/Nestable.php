@@ -91,7 +91,7 @@ class Nestable extends Widget {
 	 * @see items
 	 * @throws InvalidConfigException .
 	 */
-	public function renderItems($items) {
+	public function renderItems(array $items) {
 		$renderedItems = [];
 		foreach ($items as $item) {
 			$options  = $this->itemOptions;
