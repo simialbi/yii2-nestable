@@ -100,6 +100,9 @@ class Nestable extends Widget {
 		$listOptions   = $this->options;
 		$listTag       = ArrayHelper::remove($listOptions, 'tag', 'ul');
 		$renderedItems = [];
+		if (isset($listOptions['id'])) {
+			unset($listOptions['id']);
+		}
 		foreach ($items as $item) {
 			$options  = $this->itemOptions;
 			$tag      = ArrayHelper::remove($options, 'tag', 'li');
