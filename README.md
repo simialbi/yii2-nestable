@@ -115,23 +115,23 @@ class MyController extends Controller {
 		return [
 			'root'    => [
 				'class'      => 'simialbi\yii2\nestable\actions\RootAction',
-				'modelClass' => 'tonic\hq\models\WebPage'
+				'modelClass' => 'simialbi\yii2\nestable\models\ActiveRecord'
 			],
 			'after'   => [
 				'class'      => 'simialbi\yii2\nestable\actions\AfterAction',
-				'modelClass' => 'tonic\hq\models\WebPage'
+				'modelClass' => 'simialbi\yii2\nestable\models\ActiveRecord'
 			],
 			'before'  => [
 				'class'      => 'simialbi\yii2\nestable\actions\BeforeAction',
-				'modelClass' => 'tonic\hq\models\WebPage'
+				'modelClass' => 'simialbi\yii2\nestable\models\ActiveRecord'
 			],
 			'prepend' => [
 				'class'      => 'simialbi\yii2\nestable\actions\PrependAction',
-				'modelClass' => 'tonic\hq\models\WebPage'
+				'modelClass' => 'simialbi\yii2\nestable\models\ActiveRecord'
 			],
 			'append'  => [
 				'class'      => 'simialbi\yii2\nestable\actions\AppendAction',
-				'modelClass' => 'tonic\hq\models\WebPage'
+				'modelClass' => 'simialbi\yii2\nestable\models\ActiveRecord'
 			]
 		];
 	}
