@@ -19,13 +19,8 @@ class NestableAsset extends AssetBundle {
 	/**
 	 * {@inheritdoc}
 	 */
-	public $sourcePath = '@bower/jquery-nested-sortable';
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public $js = [
-		'jquery.mjs.nestedSortable.js'
+		'js/jquery.mjs.nestedSortable.js'
 	];
 
 	/**
