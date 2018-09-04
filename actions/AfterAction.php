@@ -14,6 +14,7 @@ use yii\base\InvalidConfigException;
  * Move node after context node
  *
  * @throws InvalidConfigException
+ * @since 3.0
  */
 class AfterAction extends Action {
 	/**

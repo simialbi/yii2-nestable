@@ -664,7 +664,7 @@
 			if (o.isTree) {
 				replaceClass(item, o.branchClass, o.leafClass, doNotClear);
 
-//				What's the sense of this?
+//				TODO: What's the sense of this?
 //				if (doNotClear && hasChildren) {
 //					replaceClass(item, o.collapsedClass, o.expandedClass);
 //				}

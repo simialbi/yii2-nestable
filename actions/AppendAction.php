@@ -14,6 +14,7 @@ use yii\base\InvalidConfigException;
  * Append node to context node
  *
  * @throws InvalidConfigException
+ * @since 3.0
  */
 class AppendAction extends Action {
 	/**

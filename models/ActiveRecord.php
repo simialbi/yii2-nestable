@@ -25,6 +25,7 @@ namespace simialbi\yii2\nestable\models;
  * @method boolean isRoot() Determines whether the node is root.
  * @method boolean isChildOf(\yii\db\ActiveRecord $node) Determines whether the node is child of the parent node.
  * @method boolean isLeaf() Determines whether the node is leaf.
+ * @since 1.0
  */
 abstract class ActiveRecord extends \yii\db\ActiveRecord {
 	/**

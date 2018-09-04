@@ -10,6 +10,7 @@ namespace simialbi\yii2\nestable;
 /**
  * Class Module
  * @package simialbi\yii2\nestable
+ * @since 1.0
  */
 class Module extends \simialbi\yii2\base\Module {
 	/**

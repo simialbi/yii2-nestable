@@ -1,8 +1,7 @@
 # yii2-nestable
 
 Yii 2.0 implementation of nested set behavior using jquery.nestable plugin based on
-Arno Slatius implementation.
-* [slatiusa/yii2-nestable](https://github.com/ASlatius/yii2-nestable): Arno Slatius implementation
+nestedSortable jQuery plugin implementation.
 * [nestedSortable jQuery plugin](https://github.com/ilikenwf/nestedSortable) 
 * [Nested Sets Behavior](https://github.com/creocoder/yii2-nested-sets) for Yii 2
 
@@ -13,13 +12,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-$ php composer.phar require simialbi/yii2-nestable "~1.0"
+$ php composer.phar require simialbi/yii2-nestable "~3.0"
 ```
 
 or add
 
 ```
-"simialbi/yii2-nestable": "~1.0"
+"simialbi/yii2-nestable": "~3.0"
 ```
 
 to the ```require``` section of your `composer.json` file.
@@ -28,44 +27,116 @@ to the ```require``` section of your `composer.json` file.
 
 Make sure you've attached the NestedSetsBehavior (creocoder/yii2-nested-sets) correctly to your model.
 
-And then render the widget in your view;
+And then render the widget in your view. An advanced example could look like this:
 
 ```php
 <?php
 use simialbi\yii2\nestable\widgets\Nestable;
+use yii\helpers\Url;
+use yii\web\JsExpression;
 
 echo Nestable::widget([
-    'clientEvents' => [
-        'change' => 'function(e) {}',
-    ],
+	'items' => [
+		[
+			'content' => '<div><a href="#test">My Item</a><span class="handle"></span></div>',
+			'options' => ['class' => 'list-group-item'],
+			'listOptions' => ['class' => 'list-group'],
+			'items' => [
+				[
+					'content' => '<div><a href="#testChild">My Child Item</a><span class="handle"></span></div>',
+					'options' => ['class' => 'list-group-item']
+				]
+			]
+		], 
+		[
+			'content' => '<div><a href="#test2">My Item 2</a><span class="handle"></span></div>',
+			'options' => ['class' => 'list-group-item'],
+			'listOptions' => ['class' => 'list-group']
+		]
+	],
     'clientOptions' => [
-        'maxDepth' => 7,
+    	'expandOnHover' => 700,
+		'forcePlaceholderSize' => true,
+		'handle' => '.handle',
+		'isTree' => true,
+		'items' => 'li',
+		'placeholder' => 'placeholder',
+		'startCollapsed' => true,
+		'toleranceElement' => '> div',
+		// this js event will be called on change order of list
+		'relocate' => new JsExpression('function (evt, ui) {
+			var context = null;
+			var method = \'root\';
+			var parent = ui.item.parent(\'ul\').parent(\'.list-group-item\');
+			
+			if (ui.item.prev(\'.list-group-item\').length) {
+				if (parent.length) {
+					method = \'after\';
+				}
+				context = ui.item.prev(\'.list-group-item\').data(\'id\');
+			} else if (ui.item.next(\'.list-group-item\').length) {
+				if (parent.length) {
+					method = \'before\';
+				}
+				context = ui.item.next(\'.list-group-item\').data(\'id\');
+			} else if (parent.length) {
+				method = \'prepend\';
+				context = ui.item.parent(\'ul\').parent(\'.list-group-item\').data(\'id\');
+			}
+			
+			jQuery.ajax({
+				url: \''.Url::to(['site/my']).'/\' + method,
+				data: {
+					id: ui.item.data(\'id\'),
+					context: context
+				}
+			});
+		}')
     ]
 ]);
 ?>
 ```
 
-You can either supply an ActiveQuery object in `query` from which a tree will be built.
-You can also supply an item list;
+Your controller should then look like this:
 ```php
-    ...
-    'items' => [
-        ['content' => 'Item # 1', 'id' => 1],
-        ['content' => 'Item # 2', 'id' => 2],
-        ['content' => 'Item # 3', 'id' => 3],
-        ['content' => 'Item # 4 with children', 'id' => 4, 'children' => [
-            ['content' => 'Item # 4.1', 'id' => 5],
-            ['content' => 'Item # 4.2', 'id' => 6],
-            ['content' => 'Item # 4.3', 'id' => 7],
-        ]],
-    ],
+<?php
+namespace app\controllers;
+
+use yii\web\Controller;
+
+/**
+ * This controller provides move actions
+ */
+class MyController extends Controller {
+	/**
+	 * @inheritdoc
+	 */
+	public function actions() {
+		return [
+			'root'    => [
+				'class'      => 'simialbi\yii2\nestable\actions\RootAction',
+				'modelClass' => 'tonic\hq\models\WebPage'
+			],
+			'after'   => [
+				'class'      => 'simialbi\yii2\nestable\actions\AfterAction',
+				'modelClass' => 'tonic\hq\models\WebPage'
+			],
+			'before'  => [
+				'class'      => 'simialbi\yii2\nestable\actions\BeforeAction',
+				'modelClass' => 'tonic\hq\models\WebPage'
+			],
+			'prepend' => [
+				'class'      => 'simialbi\yii2\nestable\actions\PrependAction',
+				'modelClass' => 'tonic\hq\models\WebPage'
+			],
+			'append'  => [
+				'class'      => 'simialbi\yii2\nestable\actions\AppendAction',
+				'modelClass' => 'tonic\hq\models\WebPage'
+			]
+		];
+	}
+}
 ```
-
-The `modelOptions['name']` should hold an attribute name that will be used to name on the items in the list.
-You can alternatively supply an unnamed `function($model)` to build your own content string.
-
-Supply a `pluginEvents['change']` with some JavaScript code to catch the change event fired by jquery.nestable plugin.
-The `pluginOptions` accepts all the options for the original jquery.nestable plugin.
 
 ## License
 
