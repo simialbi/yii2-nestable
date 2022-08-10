@@ -35,12 +35,12 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord {
 	 *
 	 * @return boolean
 	 */
-	abstract public function moveAfter($model);
+	abstract public function moveAfter(ActiveRecord $model): bool;
 
 	/**
 	 * Move model as first of this sortable scope.
 	 *
 	 * @return boolean
 	 */
-	abstract public function moveAsFirst();
+	abstract public function moveAsFirst(): bool;
 }
