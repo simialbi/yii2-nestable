@@ -517,6 +517,22 @@
 
 		},
 
+		/**
+		 * fix known performance issue with jquery ui sortable
+		 * see https://github.com/jquery/jquery-ui/issues/2062#issuecomment-1080531192
+		 *
+		 * @private
+		 */
+		_setHandleClassName: function() {
+			this._removeClass( this.element.find( ".ui-sortable-handle" ), "ui-sortable-handle" );
+			$.each( this.items, function() {
+				(this.instance.options.handle
+						? this.item.find( this.instance.options.handle )
+						: this.item
+				).addClass('ui-sortable-handle');
+			});
+		},
+
 		serialize: function (options) {
 
 			var o = $.extend({}, this.options, options), items = this._getItemsAsjQuery(o && o.connected), str = [];
